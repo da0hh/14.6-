@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+#include <cassert>
+#include <vector>
+
+using namespace std;
+
+
+int main() {
+    setlocale(LC_ALL, "RU");
+    vector<vector <bool>> tableRows/*[2][5]*/ = {
+        {true, true, true, true, true},
+        {true, true, true, true, true}
+    };
+    vector<vector <bool>> vipDishes/*[2][3]*/ = {
+        {true, true, true},
+        {true, true, true}
+    };
+    vector<vector <bool>> vipTableware/*[2][4]*/ = {
+        {true, true, true, true},
+        {true, true, true, true}
+    };
+    vector<vector <bool>> tableware/*[10][3] */= {
+        {true, true, true}, {true, true, true},
+        {true, true, true}, {true, true, true},
+        {true, true, true}, {true, true, true},
+        {true, true, true}, {true, true, true},
+        {true, true, true}, {true, true, true}
+    };
+
+    tableRows[0].push_back(true);//add 1 chair for the kid
+
+    vipDishes[0][2] = false;
+    vipTableware[0][2] = false;
+    tableware[7][1] = false;
+    tableware[7][1] = true;
+}
+
