@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+#include <cassert>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    setlocale(LC_ALL, "RU");
+    float matrix[4][4];
+    float vector[4];   
+    float result[4];  
+
+    cout << "Введите элементы матрицы 4x4 (по строкам):" << endl;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            cout << "Элемент [" << i << "][" << j << "]: ";
+            cin >> matrix[i][j];
+        }
+    }
+
+    cout << "\nВведите элементы вектора (4 числа):" << endl;
+    for (int i = 0; i < 4; ++i) {
+        cout << "Элемент " << i << ": ";
+        cin >> vector[i];
+    }
+
+    for (int i = 0; i < 4; ++i) { 
+        float sum = 0.0f;        
+        for (int j = 0; j < 4; ++j) {
+            sum += matrix[i][j] * vector[j]; 
+        }
+        result[i] = sum;  
+    }
+
+    cout << "\nРезультат умножения (вектор c):" << endl;
+    for (int i = 0; i < 4; ++i) {
+        cout << "c[" << i << "] = " << result[i] << endl;
+    }
+}
