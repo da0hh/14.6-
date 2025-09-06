@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string>
+#include <cassert>
+#include <vector>
+
+using namespace std;
+
+bool checkWin( vector<vector<char>> space, char symbol) {
+    for (int i = 0; i < 3; i++) {
+        if (space[i][0] == symbol && space[i][1] == symbol && space[i][2] == symbol) {
+            return true;
+        }
+    }
+
+    for (int j = 0; j < 3; j++) {
+        if (space[0][j] == symbol && space[1][j] == symbol && space[2][j] == symbol) {
+            return true;
+        }
+    }
+
+    if (space[0][0] == symbol && space[1][1] == symbol && space[2][2] == symbol) {
+        return true;
+    }
+
+    if (space[0][2] == symbol && space[1][1] == symbol && space[2][0] == symbol) {
+        return true;
+    }
+
+    return false;
+}
+
+bool checkTruth( vector<vector<char>> space, int x, int y) {
+    if (x < 0 || x >= 3 || y < 0 || y >= 3) {
+        return false; 
+    }
+    return space[x][y] == ' ';
+}
+
+int main() {
+    setlocale(LC_ALL, "RU");
+    int x, y, a, b, stepsCount = 0;
+    vector<vector<char>> space = {
+        {' ', ' ', ' '},
+        {' ', ' ', ' '},
+        {' ', ' ', ' '}
+    };
+
+    do {
+        cout << "Turn first player: ";
+        cin >> x >> y;
+
+        if (!checkTruth(space, x, y)) {
+            cout << "Invalid position or cell is already taken!\n";
+            continue; 
+        }
+
+        space[x][y] = 'X'; 
+
+        if (checkWin(space, 'X')) {
+            cout << "The winner is first player!\n";
+            return 0;
+        }
+
+        for (int i = 0; i < space.size(); i++) {
+            for (int j = 0; j < space[i].size(); j++) {
+                cout << space[i][j] << " ";
+            }
+            cout << "\n";
+        }
+
+        cout << "Turn second player: ";
+        cin >> a >> b;
+
+        if (!checkTruth(space, a, b)) {
+            cout << "Invalid position or cell is already taken!\n";
+            continue; 
+        }
+
+        space[a][b] = 'O'; 
+
+        if (checkWin(space, 'O')) {
+            cout << "The winner is second player!\n";
+            return 0;
+        }
+
+        for (int i = 0; i < space.size(); i++) {
+            for (int j = 0; j < space[i].size(); j++) {
+                cout << space[i][j] << " ";
+            }
+            cout << "\n";
+        }
+
+        stepsCount++;
+    } while (stepsCount < 9);
+
+    cout << "Draw!\n";
+}
