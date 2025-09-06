@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+#include <cassert>
+#include <vector>
+
+using namespace std;
+
+void statisticBubles(const vector<vector <bool>>& countBalls, int size) {
+	for (size_t i = 0; i < size; i++){
+		for (size_t j = 0; j < size; j++){
+			if (countBalls[i][j] == true) {
+				cout << "o ";
+			}
+			else {
+				cout << "x ";
+			}
+		}
+		cout << endl;
+	}
+}
+
+bool killBuble( vector<vector <bool>>& countBalls, int x1, int y1, int x2, int y2) {
+	const int size = 12;
+	if (x1 < 0 || y1 < 0 || x2 < 0 || y2 < 0 || x1 > size || y1 > size || x2 > size || y2 > size) {
+		cout << "Invalid dates.\n";
+		return 0;
+	}
+
+	for (int i = x1; i <= x2; i++) {
+		for (int j = y1; j <= y2; j++) {
+			if (countBalls[i][j] == true) {
+				cout << "Pop!\n";
+			}
+			countBalls[i][j] = false;
+		}
+	}
+	statisticBubles(countBalls, 12);
+}
+
+bool hasRemainingBubbles(const vector<vector<bool>>& countBalls) {
+	for (const auto& row : countBalls) {
+		for (bool val : row) {
+			if (val) return true;  
+		}
+	}
+	return false;
+}
+
+int main() {
+    setlocale(LC_ALL, "RU");
+	int x1, y1, x2, y2;
+    vector<vector <bool>> countBalls (12, vector <bool>(12, true));
+
+	statisticBubles(countBalls, 12);
+
+	do {
+		cout << "Enter the start position of place what would you remove(x, y): "; cin >> x1 >> y1;
+		cout << "Enter the second part of position(x, y): "; cin >> x2 >> y2;
+
+		killBuble(countBalls, x1, y1, x2, y2);
+		cout << "\n";
+	} while (!hasRemainingBubbles);
+	
+}
