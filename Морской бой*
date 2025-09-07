@@ -1,0 +1,154 @@
+#include <iostream>
+#include <string>
+#include <cassert>
+#include <vector>
+
+using namespace std;
+
+bool field1[10][10];
+bool field2[10][10];
+
+bool placeShips(bool field[][10], int size) {
+
+    int x_s, y_s, x_e, y_e;
+    cout << "Start X Y: "; cin >> x_s >> y_s;
+
+    if (size == 0) {
+        cerr << "Invalid size: " << size << endl;
+        return false;
+    }
+    else {
+        x_e = x_s;
+        y_e = y_s;
+    }
+
+    if (x_e < x_s) {
+        int tmp = x_s;
+        x_s = x_e;
+        x_e = tmp;
+    }
+
+    if (y_e < y_s) {
+        int tmp = y_s;
+        y_s = y_e;
+        y_e = tmp;
+    }
+
+    if (x_s < 0 || x_e > 10 || y_s < 0 || y_e > 10) {
+        cerr << "Out of bounds! " << endl;
+        return false;
+    }
+
+    int d_x = x_e - x_s;
+    int d_y = y_e - y_s;
+
+    if (d_x != 0) {
+        cerr << "Invalid ship size " << endl; 
+        return false;
+    }
+
+    if (d_y != 0) {
+        cerr << "Cannot be there " << endl;
+        return false;
+    }
+
+    int y = y_s;
+    for (int i = x_s; i <= x_e; i++) {
+        if (field[i][y]) {;
+        cerr << "Collision detected, " << endl;
+            return false;
+        }
+    }
+
+    for (int i = x_s; i <= x_e; i++) {
+        field[i][y] = true;
+    }
+
+    int x = x_s;
+    for (int i = x_s; i <= x_e; i++) {
+        if (field[x][i]) {
+            ;
+            cerr << "Collision detected, " << endl;
+            return false;
+        }
+    }
+
+    for (int i = y_s; i <= y_e; i++) {
+        field[i][y] = true;
+    }
+}
+
+void place_ship(bool field[][10]) {
+    for (size_t i = 0; i < 4; i++)
+    {
+        cout << "Tiny []" << endl;
+    }
+    while (!placeShips(field, 1)) {
+        cout << "Try again\n";
+    }
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        cout << "Small [][]" << endl;
+    }
+    while (!placeShips(field, 2)) {
+        cout << "Try again\n";
+    }
+
+    for (size_t i = 0; i < 2; i++)
+    {
+        cout << "Medium [][][]" << endl;
+    }
+    while (!placeShips(field, 3)) {
+        cout << "Try again\n";
+    }
+
+
+    cout << "Big [][][][]" << endl;
+
+    while (!placeShips(field, 4)) {
+        cout << "Try again\n";
+    }
+}
+
+bool atack(bool field[][10]) {
+    int x, y;
+    cout << "Enter X Y: "; cin >> x >> y;
+    if (x >= 0 && x < 10 && y >= 0 && y < 10 && field[x][y]) {
+        cout << "Boom" << endl;
+        field[x][y] = false;
+        return true;
+    }
+    else {
+        cout << "Miss\n";
+        return false;
+    }
+}
+
+int main() {
+    setlocale(LC_ALL, "RU");
+    cout << "Place ship: "; 
+    place_ship(field1);
+
+    cout << "Place ship: ";
+    place_ship(field2);
+
+    int player_1_BlocksLeft = 4 * 1 + 3 * 2 + 2 * 3 + 1 * 4;
+    int player_2_BlocksLeft = 4 * 1 + 3 * 2 + 2 * 3 + 1 * 4;
+
+    while (true) {
+        cout << "First player attacked\n";
+        if (atack(field2)){
+            player_2_BlocksLeft -= 1;
+            cout << "First player wins\n";
+            return 0;
+        }
+    
+        cout << "Second player attacked\n";
+        if (atack(field1)) {
+            player_1_BlocksLeft -= 1;
+            cout << "First player wins\n";
+            return 0;
+        }
+    }
+}
